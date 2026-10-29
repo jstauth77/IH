@@ -7,18 +7,28 @@
 <style>
   :root { --bg: #000; }
   html, body {
-    margin: 0; height: 100%;
+    margin: 0; width: 100%; height: 100%;
     background: var(--bg);
     overflow: hidden;
   }
-  body {
-    display: grid;
-    place-items: center;
+  /* Calque plein écran : le centrage se fait toujours par rapport à la fenêtre visible */
+  .scene {
+    position: fixed;
+    top: 0; right: 0; bottom: 0; left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
   .stage {
+    /* logo = 50 % de la hauteur de la fenêtre (plafonné en largeur sur mobile) */
+    --h: min(55.87vh, calc(72vw * 3805 / 2655));
     position: relative;
-    height: min(55.87vh, 55.87svh, calc(72vw * 3805 / 2655)); /* logo = 50 % de la hauteur */
-    aspect-ratio: 2655 / 3805;
+    flex: 0 0 auto;
+    height: var(--h);
+    width: calc(var(--h) * 2655 / 3805);
+  }
+  @supports (height: 1dvh) {
+    .stage { --h: min(55.87dvh, calc(72vw * 3805 / 2655)); }
   }
   .stage svg {
     position: absolute; inset: 0;
@@ -34,6 +44,7 @@
 </style>
 </head>
 <body>
+<div class="scene">
 <div class="stage" aria-label="Logo IH, precision haircuts">
   <svg viewBox="-200 -200 2655 3805" xmlns="http://www.w3.org/2000/svg"
        style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.5;">
@@ -154,6 +165,7 @@
       <circle class="halo" id="spark" cx="0" cy="0" r="170" fill="url(#flare)" opacity="0"/>
     </g>
   </svg>
+</div>
 </div>
 
 <script>
